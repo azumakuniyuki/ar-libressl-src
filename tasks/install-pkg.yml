@@ -1,0 +1,66 @@
+---
+#  _     _ _              ____ ____  _      __          __     ___            _        
+# | |   (_) |__  _ __ ___/ ___/ ___|| |    / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | |   | | '_ \| '__/ _ \___ \___ \| |   | / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | |___| | |_) | | |  __/___) |__) | |___| \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_____|_|_.__/|_|  \___|____/____/|_____| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                          \_\          /_/                            
+# install-pkg
+- name: install-pkg | FreeBSD | Development tools should be installed
+  when: ansible_os_family == "FreeBSD"
+  pkgng:
+    name:  "{{ item }}"
+    state: "present"
+  with_items:
+    - "autoconf"
+    - "automake"
+    - "gcc"
+    - "gettext"
+    - "git"
+    - "ncurses"
+    - "patch"
+    - "pcre"
+    - "readline"
+
+- name: install-pkg | RedHat | Development tools should be installed
+  when: ansible_os_family == "RedHat"
+  yum:
+    name:  "{{ item }}"
+    state: "present"
+  with_items:
+    - "autoconf"
+    - "automake"
+    - "gcc"
+    - "gcc-c++"
+    - "gettext"
+    - "gettext-devel"
+    - "git"
+    - "ncurses"
+    - "ncurses-devel"
+    - "patch"
+    - "pcre"
+    - "pcre-devel"
+    - "perl-core"
+    - "readline"
+    - "readline-devel"
+
+- name: install-pkg | Debian | Development tools should be installed
+  when: ansible_os_family == "Debian"
+  apt:
+    name:  "{{ item }}"
+    state: "present"
+  with_items:
+    - "autotools-dev"
+    - "autoconf2.59"
+    - "automake1.11"
+    - "gcc"
+    - "gettext"
+    - "git"
+    - "libncurses-dev"
+    - "libpcre3"
+    - "libpcre3-dev"
+    - "libreadline6-dev"
+    - "libreadline6"
+    - "ncurses-dev"
+    - "patch"
+

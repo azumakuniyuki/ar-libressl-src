@@ -1,0 +1,26 @@
+---
+#  _     _ _              ____ ____  _      __          __     ___            _        
+# | |   (_) |__  _ __ ___/ ___/ ___|| |    / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | |   | | '_ \| '__/ _ \___ \___ \| |   | / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | |___| | |_) | | |  __/___) |__) | |___| \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_____|_|_.__/|_|  \___|____/____/|_____| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                          \_\          /_/                            
+# make-config
+- name: make-config | openssl command should be linked from /usr/local/bin
+  file:
+    src:   "{{ libressl.install }}/bin/openssl"
+    dest:  "/usr/local/bin/openssl"
+    state: "link"
+
+- name: make-config | Create /etc/ld.so.conf.d/libressl.conf
+  register: ldlibrary
+  shell: >
+    echo "{{ libressl.install }}/lib" > /etc/ld.so.conf.d/libressl.conf
+  args:
+    creates: "/etc/ld.so.conf.d/libressl.conf"
+
+- name: make-config | ldconfig command should be executed
+  when: ldlibrary.changed
+  shell: >
+    ldconfig
+

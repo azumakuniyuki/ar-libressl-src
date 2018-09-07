@@ -1,0 +1,42 @@
+---
+#  _     _ _              ____ ____  _      __          __     ___            _        
+# | |   (_) |__  _ __ ___/ ___/ ___|| |    / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | |   | | '_ \| '__/ _ \___ \___ \| |   | / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | |___| | |_) | | |  __/___) |__) | |___| \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_____|_|_.__/|_|  \___|____/____/|_____| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                          \_\          /_/                            
+# compile-src
+- name: compile-src | REBUILD | make clean
+  when: libressl.rebuild == true
+  shell: make clean
+  args:
+    chdir:   "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
+    removes: "./crypto/libresslconf.h.bak"
+
+- name: compile-src | LibreSSL {{ libressl.version }} should be configured(1)
+  shell: >
+    /bin/sh ./autogen.sh
+  args:
+    creates: "./configure"
+    chdir:   "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
+
+- name: compile-src | LibreSSL {{ libressl.version }} should be configured(2)
+  shell: >
+    /bin/sh ./configure --prefix={{ libressl.install }}
+  args:
+    creates: "./Makefile"
+    chdir:   "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
+
+- name: compile-src | LibreSSL {{ libressl.version }} should be made
+  register: make_libressl_binary
+  shell: make
+  args:
+    chdir:   "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
+    creates: "./apps/openssl/openssl"
+
+- name: compile-src | LibreSSL {{ libressl.version }} should be installed
+  when: make_libressl_binary.changed
+  shell: make install
+  args:
+    chdir: "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
+

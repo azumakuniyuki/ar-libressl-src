@@ -1,0 +1,14 @@
+galaxy_info:
+  author: azumakuniyuki
+  description: Build and install LibreSSL from source codes
+  company: Cubicroot Co. Ltd.
+  issue_tracker_url: https://github.com/azumakuniyuki/ar-libressl-src/issues
+  license: BSD
+  min_ansible_version: 2.0
+  platforms:
+  - name: GenericLinux
+    versions:
+    - all
+  galaxy_tags: ['libressl', 'openssl']
+dependencies: []
+

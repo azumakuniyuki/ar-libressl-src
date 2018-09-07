@@ -1,0 +1,27 @@
+---
+#  _     _ _              ____ ____  _      __          __     ___            _        
+# | |   (_) |__  _ __ ___/ ___/ ___|| |    / /__ _ __ __\ \   / / |_ __ _ ___| | _____ 
+# | |   | | '_ \| '__/ _ \___ \___ \| |   | / __| '__/ __| | / /| __/ _` / __| |/ / __|
+# | |___| | |_) | | |  __/___) |__) | |___| \__ \ | | (__| |/ / | || (_| \__ \   <\__ \
+# |_____|_|_.__/|_|  \___|____/____/|_____| |___/_|  \___| /_/   \__\__,_|___/_|\_\___/
+#                                          \_\          /_/                            
+# get-archive
+- name: get-archive | Download LibreSSL archive
+  get_url:
+    url:  "https://github.com/libressl-portable/portable/archive/v{{ libressl.version }}.zip"
+    dest: "{{ libressl.workingdir }}/libressl-{{ libressl.version }}.zip"
+
+- name: get-archive | Extract {{ libressl.workingdir }}/libressl-{{ libressl.version }}.zip
+  unarchive:
+    src:     "{{ libressl.workingdir }}/libressl-{{ libressl.version }}.zip"
+    dest:    "{{ libressl.workingdir }}"
+    creates: "{{ libressl.workingdir }}/portable-{{ libressl.version }}"
+    copy:    "no"
+
+- name: get-archive | Rename to {{ libressl.workingdir }}/libressl-{{ libressl.version }}
+  shell: >
+    mv ./portable-{{ libressl.version }} ./libressl-{{ libressl.version }}
+  args:
+    creates: "{{ libressl.workingdir }}/libressl-{{ libressl.version }}"
+    chdir:   "{{ libressl.workingdir }}"
+
