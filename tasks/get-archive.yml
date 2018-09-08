@@ -24,4 +24,3 @@
   args:
     creates: "{{ libressl.workingdir }}/libressl-{{ libressl.version }}"
     chdir:   "{{ libressl.workingdir }}"
-

@@ -39,4 +39,3 @@
   shell: make install
   args:
     chdir: "{{ libressl.workingdir }}/libressl-{{ libressl.version }}/"
-

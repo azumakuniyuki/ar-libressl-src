@@ -23,4 +23,3 @@
   when: ldlibrary.changed
   shell: >
     ldconfig
-
