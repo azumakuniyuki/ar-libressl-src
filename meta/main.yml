@@ -1,5 +1,5 @@
 galaxy_info:
-  role_name: azumakuniyuki.ar-libressl-src
+  role_name: ar-libressl-src
   author: azumakuniyuki
   description: Build and install LibreSSL from source codes
   company: Cubicroot Co. Ltd.
